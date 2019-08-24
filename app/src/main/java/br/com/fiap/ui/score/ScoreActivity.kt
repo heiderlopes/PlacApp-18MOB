@@ -2,8 +2,10 @@ package br.com.fiap.ui.score
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import br.com.fiap.R
+import br.com.fiap.model.Game
 import kotlinx.android.synthetic.main.activity_score.*
 
 class ScoreActivity : AppCompatActivity() {
@@ -17,7 +19,7 @@ class ScoreActivity : AppCompatActivity() {
         scoreViewModel = ViewModelProviders.of(this)
             .get(ScoreViewModel::class.java)
 
-        setExtras()
+        setupView()
 
         registerObserver()
 
@@ -39,13 +41,24 @@ class ScoreActivity : AppCompatActivity() {
     }
 
     private fun registerObserver() {
+        scoreViewModel.goalHome.observe(this, Observer { goalHome ->
+            tvGoalHome.text = goalHome.toString()
+        })
 
+        scoreViewModel.goalAway.observe(this, Observer { goalAway->
+            tvAwayGoal.text = goalAway.toString()
+        })
     }
 
-    private fun setExtras() {
-        tvEventName.text = intent.extras?.getString("eventName")
+    private fun setupView() {
+        /*tvEventName.text = intent.extras?.getString("eventName")
         tvHomeName.text = intent.extras?.getString("homeTeam")
-        tvAwayName.text = intent.extras?.getString("awayTeam")
+        tvAwayName.text = intent.extras?.getString("awayTeam")*/
+        intent.extras?.getParcelable<Game>("game")?.apply {
+            tvEventName.text = eventName
+            tvHomeName.text = homeTeam
+            tvAwayName.text = awayTeam
+        }
     }
 
 }

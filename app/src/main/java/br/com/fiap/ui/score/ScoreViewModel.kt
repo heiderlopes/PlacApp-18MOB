@@ -5,8 +5,8 @@ import androidx.lifecycle.ViewModel
 
 class ScoreViewModel :ViewModel() {
 
-    private val goalHome = MutableLiveData<Int>()
-    private val goalAway = MutableLiveData<Int>()
+    val goalHome = MutableLiveData<Int>()
+    val goalAway = MutableLiveData<Int>()
 
     init {
         initGame()

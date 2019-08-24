@@ -6,10 +6,12 @@ import android.content.Intent
 import android.content.IntentFilter
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import br.com.fiap.R
+import br.com.fiap.model.Game
 import br.com.fiap.ui.game.awayteam.AwayTeamFragment
 import br.com.fiap.ui.game.event.EventFragment
 import br.com.fiap.ui.game.hometeam.HomeTeamFragment
@@ -18,7 +20,7 @@ import kotlinx.android.synthetic.main.activity_game.*
 
 class GameActivity : AppCompatActivity() {
 
-    private lateinit var gameViewModel : GameViewModel
+    private lateinit var gameViewModel: GameViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -32,6 +34,7 @@ class GameActivity : AppCompatActivity() {
 
         ivBack.setOnClickListener {
             onBackPressed()
+            Log.i("TAG", "Clicou em voltar")
         }
     }
 
@@ -50,7 +53,7 @@ class GameActivity : AppCompatActivity() {
 
     private fun showEventFragment() {
         val ft = supportFragmentManager.beginTransaction()
-        if(supportFragmentManager.findFragmentByTag("EventFragment") == null) {
+        if (supportFragmentManager.findFragmentByTag("EventFragment") == null) {
             ft.add(R.id.containerGame, EventFragment(), "EventFragment")
             ft.commit()
         }
@@ -100,10 +103,24 @@ class GameActivity : AppCompatActivity() {
     }
 
     private fun showScoreActivity() {
+        val game = Game(
+            gameViewModel.eventName,
+            gameViewModel.homeTeam,
+            gameViewModel.awayTeam
+        )
+
+        /*val game2 = Game(
+            homeTeam = gameViewModel.homeTeam,
+            awayTeam = gameViewModel.awayTeam
+        )*/
+
         val nextScreen = Intent(this@GameActivity, ScoreActivity::class.java)
-        nextScreen.putExtra("eventName", gameViewModel.eventName)
+        /*nextScreen.putExtra("eventName", gameViewModel.eventName)
         nextScreen.putExtra("homeTeam", gameViewModel.homeTeam)
-        nextScreen.putExtra("awayTeam", gameViewModel.awayTeam)
+        nextScreen.putExtra("awayTeam", gameViewModel.awayTeam)*/
+
+        nextScreen.putExtra("game", game)
+
         startActivity(nextScreen)
         finish()
     }
