@@ -10,6 +10,7 @@ import android.view.ViewGroup
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 
 import br.com.fiap.R
+import br.com.fiap.ui.game.GameActivity
 import br.com.fiap.ui.score.ScoreActivity
 import kotlinx.android.synthetic.main.fragment_away_team.*
 
